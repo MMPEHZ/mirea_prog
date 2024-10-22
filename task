@@ -39,7 +39,7 @@ function get_left_down_angle!(r)
     return (steps_to_down_border, steps_to_left_border)
 end
 
-function get_to_origin!(r, steps_to_origin)
+function get_to_origin!(r)
     for (i, side) in enumerate((Nord, Ost))
         moves!(r, side, steps_to_origin[i])
     end
