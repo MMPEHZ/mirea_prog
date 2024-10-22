@@ -32,7 +32,8 @@ function putmarkers_until_border!(r, side)
     end 
     return n_steps
 end
-unction get_left_down_angle!(r)
+
+function get_left_down_angle!(r)
     steps_to_left_border = move_until_border!(r, West)
     steps_to_down_border = move_until_border!(r, Sud)
     return (steps_to_down_border, steps_to_left_border)
