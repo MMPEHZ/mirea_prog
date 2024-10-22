@@ -55,7 +55,7 @@ end
 
 function putmarkers_until_border!(r, side)
     n_steps = 0
-    while !isborder(r, sides[1]) && !isborder(r, sides[2])
+    while !isborder(r, side)
         n_steps += 1
         move!(r, sides)
         putmarker!(r)
