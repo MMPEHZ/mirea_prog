@@ -3,33 +3,12 @@ import HorizonSideRobots.move!
 
 r=Robot(animate=true)
 
-function inverse_side(side)
-    inv_side = HorizonSide((Int(side) + 2) % 4)
-    return inv_side
-end
-
-function moves!(r,side, n_steps)
-    for i in 1:n_steps
-        move!(r, side)
-    end
-end
-
 function move_until_border!(r,side)
     n_steps = 0
     while !isborder(r, side)
         n_steps += 1
         move!(r, side)
     end
-    return n_steps
-end
-
-function putmarkers_until_border!(r, side)
-    n_steps = 0
-    while !isborder(r, side) 
-        move!(r, side)
-        putmarker!(r)
-        n_steps += 1
-    end 
     return n_steps
 end
 
