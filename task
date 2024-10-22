@@ -19,7 +19,7 @@ function do_upora_num!(robot, side)
 end
 
 function mark_direct!(robot, side, s::Integer)::Int
-    n = 0 + s
+    n = 0 
     putmarker!(robot)
     while !isborder(robot, side)
         move!(robot, side)
