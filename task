@@ -3,18 +3,18 @@ import HorizonSideRobots.move!
 
 r=Robot(animate=true)
 
-function inverse_side(side::HorizonSide)::HorizonSide
+function inverse_side(side)
     inv_side = HorizonSide((Int(side) + 2) % 4)
     return inv_side
 end
 
-function moves!(r::Robot, side::HorizonSide, n_steps::Int)
+function moves!(r,side, n_steps)
     for i in 1:n_steps
         move!(r, side)
     end
 end
 
-function move_until_border!(r::Robot, side::HorizonSide)::Int
+function move_until_border!(r,side)
     n_steps = 0
     while !isborder(r, side)
         n_steps += 1
@@ -23,7 +23,7 @@ function move_until_border!(r::Robot, side::HorizonSide)::Int
     return n_steps
 end
 
-function putmarkers_until_border!(r::Robot, side::HorizonSide)::Int
+function putmarkers_until_border!(r, side)
     n_steps = 0
     while !isborder(r, side) 
         move!(r, side)
@@ -32,14 +32,55 @@ function putmarkers_until_border!(r::Robot, side::HorizonSide)::Int
     end 
     return n_steps
 end
-unction get_left_down_angle!(r::Robot)::NTuple{2, Int}# перемещает робота в нижний левый угол, возвращает количество шагов
+unction get_left_down_angle!(r)
     steps_to_left_border = move_until_border!(r, West)
     steps_to_down_border = move_until_border!(r, Sud)
     return (steps_to_down_border, steps_to_left_border)
 end
 
-function get_to_origin!(r::Robot, steps_to_origin::NTuple{2, Int})
+function get_to_origin!(r, steps_to_origin)
     for (i, side) in enumerate((Nord, Ost))
         moves!(r, side, steps_to_origin[i])
     end
+end
+
+function mark_fild!(r)
+    steps_to_origin = get_left_down_angle!(r)
+    putmarker!(r)
+    while !isborder(r, Ost)
+        putmarkers_until_border!(r,Nord)
+        move!(r, Ost)
+        putmarker!(r)
+        putmarkers_until_border!(r, Sud)
+    end
+    get_left_down_angle!(r)
+    get_to_origin!(r, steps_to_origin)
+end
+
+
+function putmarkers_until_border!(r, side)
+    n_steps = 0
+    while !isborder(r, sides[1]) && !isborder(r, sides[2])
+        n_steps += 1
+        move!(r, sides)
+        putmarker!(r)
+    end
+    return n_steps
+end
+
+function moves!(r, side, n_steps)
+    for _ in 1:n_steps
+        move!(r, sides)
+    end
+end
+
+function move!(r, side)
+    for side in sides
+        move!(r, side)
+    end
+end
+
+function inverse_side(side)
+    new_sides = (inverse_side(sides[1]), inverse_side(sides[2]))
+    return new_sides
 end
